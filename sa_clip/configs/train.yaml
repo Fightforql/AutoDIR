@@ -1,0 +1,37 @@
+seed: 42
+output_dir: /openbayes/input/input0/autodir_logs/saclip
+
+data:
+  train_csv: ./data/train.csv
+  val_csv: ./data/val.csv
+  num_workers: 8
+  image_size: 224
+  augment:
+    color_jitter: 0.3
+    blur_prob: 0.2
+    gray_prob: 0.1
+    crop_scale: [0.8, 1.0]
+    aug_views: 2
+
+model:
+  name: ViT-B-32
+  pretrained: laion2b_s34b_b79k
+  text_ctx_len: 77
+  freeze_vision: false
+  freeze_text: True
+
+train:
+  batch_size: 128
+  epochs: 10
+  lr: 5.0e-5
+  wd: 0.1
+  betas: [0.9, 0.98]
+  warmup_steps: 500
+  precision: amp
+  grad_accum_steps: 1
+  log_interval: 50
+  save_interval: 1000
+
+eval:
+  every_n_steps: 1000
+  num_batches: 50
